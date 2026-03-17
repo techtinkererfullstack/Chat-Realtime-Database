@@ -43,7 +43,16 @@ class MainActivity : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime()) // 1. Get keyboard insets
+
+            // 2. Use Math.max to ensure we use whichever is larger (usually the keyboard)
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                Math.max(systemBars.bottom, ime.bottom)
+            )
+
             insets
         }
 
